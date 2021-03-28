@@ -42,7 +42,7 @@ client.on_connect = on_connect
 client.on_message = on_message
 print(sys.argv[1])
 buffer = Image.new("RGB",(inky.width,inky.height),(255,255,255))
-font = ImageFont.truetype("whitrabt.ttf", 25)
+font = ImageFont.truetype("whitrabt.ttf", 50)
 
 def show_buffer():
     inky.set_image(buffer,1)
