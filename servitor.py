@@ -2,6 +2,7 @@ from inky.inky_uc8159 import Inky, CLEAN
 import time
 import paho.mqtt.client as mqtt
 import sys
+import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
 
 if(len(sys.argv)<3):
@@ -51,6 +52,20 @@ def show_buffer():
 def write_text(text, x, y, color):
     d = ImageDraw.Draw(buffer)
     d.text((x, y), text, fill=color,font=font)
+
+BUTTONS = [5,6,16,24]
+LABELS = ['A','B','C','D']
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+def handle_button(pin):
+     print('handling button press')
+     label = LABELS[BUTTONS.index(pin)]
+     client.publish('displaybuttons',str(label),0,False)
+
+for pin in BUTTONS:
+     GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=250)
 
 client.connect(sys.argv[1], 1883, 60)
 client.loop_forever()

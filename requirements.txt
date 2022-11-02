@@ -1,3 +1,2 @@
-PIL
 paho-mqtt
 inky
