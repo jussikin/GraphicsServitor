@@ -21,8 +21,9 @@ def on_connect(client, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
-    array=msg.payload.split(";",10)
+    payload = msg.payload.decode('utf-8')
+    print(msg.topic+" "+payload)
+    array=payload.split(";",10)
     cmd=array[0]
     print(cmd)
     if(cmd=="cls"):
